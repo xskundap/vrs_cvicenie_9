@@ -89,6 +89,7 @@ uint8_t hts_init(void)
 		{
 			status = 0;
 			//return status;
+			
 		}
 	}
 
