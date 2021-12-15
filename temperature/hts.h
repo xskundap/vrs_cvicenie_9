@@ -32,5 +32,6 @@ uint8_t hts_read_byte(uint8_t reg_addr);
 void hts_write_byte(uint8_t reg_addr, uint8_t value);
 int8_t hts_get_temp();
 
+
 //
 #endif /* HTS_H_ */
