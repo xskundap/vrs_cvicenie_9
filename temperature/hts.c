@@ -1,8 +1,6 @@
 /*
  * hts.c
  *
- *  Created on: 15. 12. 2021
- *      Author: HP
  */
 
 #include "hts.h"
