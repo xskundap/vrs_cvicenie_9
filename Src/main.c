@@ -19,15 +19,19 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-
 #include "main.h"
 #include "i2c.h"
 #include "gpio.h"
 #include "lis3mdltr.h"
 #include "lsm6ds0.h"
 
+#include "tim.h"
+#include "display.h"
+#include <string.h>
+
+//#include "hts.h"
 uint8_t temp = 0;
-float mag[3], acc[3];
+float mag[3], acc[3], temperature[1];
 
 void SystemClock_Config(void);
 
@@ -35,6 +39,8 @@ extern uint64_t disp_time;
 
 uint64_t saved_time;
 double num_to_display = 10;
+
+float teplota;
 
 int main(void)
 {
@@ -48,21 +54,38 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
 
-  setSegments();
-  setDigits();
+  //setSegments();
+  //setDigits();
 
-  LL_mDelay(2000);
+  //LL_mDelay(2000);
 
-  resetDigits();
-  resetSegments();
+  //resetDigits();
+  //resetSegments();
 
   lsm6ds0_init();
+  hts_init();
+  //MX_TIM2_Init();
 
   while (1)
   {
 	  //os			   x      y        z
 	  lsm6ds0_get_acc(acc, (acc+1), (acc+2));
 	  LL_mDelay(50);
+	  teplota = HTS221_Get_Temperature();
+	  teplota = teplota/10;
+/*
+	  if(disp_time > (saved_time + 100))
+	  {
+		  displayNumber(num_to_display);
+		  num_to_display -= 0.10;
+		  saved_time = disp_time;
+
+		  if(num_to_display <= 0)
+		  {
+			  num_to_display = 100;
+		  }
+	  }
+	  */
   }
 }
 
