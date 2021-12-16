@@ -54,14 +54,6 @@ int main(void)
   MX_GPIO_Init();
   MX_I2C1_Init();
 
-  //setSegments();
-  //setDigits();
-
-  //LL_mDelay(2000);
-
-  //resetDigits();
-  //resetSegments();
-
   lsm6ds0_init();
   hts_init();
   //MX_TIM2_Init();
