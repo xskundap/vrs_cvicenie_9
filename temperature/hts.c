@@ -10,25 +10,9 @@
 
 uint8_t addres_temp = 0xbe;
 
-uint8_t hts221_read_byte(uint8_t reg_addr)
-{
-	uint8_t data = 0;
-	return *(i2c_master_read(&data, 1, reg_addr, 0xbe, 0));
-}
-
-void hts221_readArray(uint8_t * data, uint8_t reg, uint8_t length)
-{
-	i2c_master_read(data, length, reg, 0xbe, 1);
-}
-
-void hts221_write_byte(uint8_t reg_addr, uint8_t value)
-{
-	i2c_master_write(value, reg_addr, 0xbe, 0);
-}
-
 
 uint8_t hts_read_byte(uint8_t reg_addr)
-{
+{	
 	uint8_t data = 0;
 	return *(i2c_master_read(&data, 1, reg_addr, addres_temp, 0));
 }
@@ -42,7 +26,7 @@ void hts_write_byte(uint8_t reg_addr, uint8_t value)
 
 void hts_readArray(uint8_t * data, uint8_t reg, uint8_t length)
 {
-	i2c_master_read(data, length, reg, addres_temp, 0);
+	i2c_master_read(data, length, reg, addres_temp, 1);
 }
 
 
