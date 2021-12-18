@@ -94,12 +94,8 @@ void Error_Handler(void);
 #define		GPIO_PIN_BUTTON					3
 
 // defines for "checkButtonState"
-#define		TRIGGER_RISE					0
-#define		TRIGGER_FALL					1
 
 #define		BUTTON_EXTI_TRIGGER				TRIGGER_FALL
-#define		BUTTON_EXTI_SAMPLES_WINDOW		30
-#define		BUTTON_EXTI_SAMPLES_REQUIRED	20
 
 uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN);
 
