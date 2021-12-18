@@ -1,6 +1,0 @@
-hts.c:12:9:hts_read_byte	32	static
-hts.c:19:6:hts_write_byte	16	static
-hts.c:25:6:hts_readArray	24	static
-hts.c:31:8:hts_get_temp	16	static
-hts.c:40:6:hts_get_acc	40	static
-hts.c:65:9:hts_init	16	static
