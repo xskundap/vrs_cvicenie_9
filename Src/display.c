@@ -25,7 +25,6 @@ void resetSegments(void)
 	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_11);
 	LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_3);
 	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_4);
-	//LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_3);
 	LL_GPIO_SetOutputPin(GPIOB, LL_GPIO_PIN_1);
 }
 
@@ -39,7 +38,6 @@ void setSegments(void)
 	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_11);
 	LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_3);
 	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_4);
-	//LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_3);
 	LL_GPIO_ResetOutputPin(GPIOB, LL_GPIO_PIN_1);
 }
 
@@ -782,33 +780,9 @@ void updateDisplay(char pole[])
 				setDigit(i);
 				setminus();
 				break;
-				/*
-			case '.':
-				if(i != 3){
-					setDigit(i);
-					setbodka();
-				}
-				break;
-			*/
-			/*
-			case '-':
-				setDigit(i);
-				setminus();
-				break;
-				*/
-				/*
-				if(i == 3){
-					LL_GPIO_SetOutputPin(SEGMENTDP_PORT, SEGMENTDP_PIN);
-				}
-				*/
+				
 		}
 
-		/*
-		if(dDisplayData.resolution == i)
-		{
-			setDecimalPoint();
-		}
-		*/
 		disp_time_saved = disp_time;
 		while((disp_time_saved + 2) > disp_time){};
 		resetDigits();
