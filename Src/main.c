@@ -115,6 +115,12 @@ int main(void)
   {
 	  hts_get_temperature(teplota);
 	  teplota_akt = teplota[0];
+	  if(teplota_akt < -99.9){
+		  teplota_akt = -99.9;
+	  }
+	  else if(teplota_akt > 99.9){
+		  teplota_akt = 99.9;
+	  }
 	  LL_mDelay(50);
 	  hts_get_humidity(vlhkost_vzduchu);
 	  hum_akt = vlhkost_vzduchu[0];
