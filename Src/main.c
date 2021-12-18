@@ -122,21 +122,6 @@ int main(void)
 	  bar_akt = tlak[0];
 	  height = ((powf((1013.25/tlak[0]),1/5.257)-1)*(teplota[0]+273.15))/0.0065;
 	  alt_akt = height;
-	  /*
-	  char s_temp[] = "TEMP_";
-
-	  sprintf(temp_val, "%.1f", teplota_akt);
-	  strcat(s_temp, temp_val);
-
-	  memset(retazec, 0, 20);
-	  strcat(retazec, s_temp);
-*/
-	  /*
-	  if (switch_state == 1){
-		  dlzka = strlen(retazec);
-		  i = 0;
-	  }
-	  */
 
 
 	  if(tlacidlo == 0){
@@ -178,23 +163,6 @@ int main(void)
 		  strcat(retazec, s_alt);
 	  }
 
-/*
-	  switch(tlacidlo){
-	  	  case(0):
-	  			retazec = "0000\0";
-				break;
-
-	  	  case(1):
-				retazec = "0001\0";
-	  			break;
-	  	  case(2):
-				retazec = "0002\0";
-	  			break;
-	  	  case(3):
-				retazec = "0003\0";
-	  		  	break;
-	  }
-*/
 	  if(pom == 1){
 	  		  if(disp_time > (saved_time + 500)){
 	  			  pole[3] = retazec[i];
@@ -225,24 +193,6 @@ int main(void)
 	  			  }
 	  		  }
 	  	  }
-	  /*
-	  if(switch_state)
-	  {
-		  LL_GPIO_SetOutputPin(GPIOA, LL_GPIO_PIN_15);
-		  for(uint16_t i=0; i<0x0008; i++){
-			  for(uint16_t j=0; j<0xFF00; j++){}
-		  }
-		  LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_15);
-		  for(uint16_t i=0; i<0x0008; i++){
-			  for(uint16_t j=0; j<0xFF00; j++){}
-		  }
-
-	  }
-	  else
-	  {
-		  LL_GPIO_ResetOutputPin(GPIOA, LL_GPIO_PIN_15);
-	  }
-	  */
 
   }
 
@@ -332,31 +282,6 @@ uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN)
 	else{
 		return 0;
 	}
-	/*
-		while(button_state < samples_required && timeout < samples_window)
-		{
-			if((LL_GPIO_IsInputPinSet(Tlacidlo_GPIO_Port, Tlacidlo_Pin) && (edge)))
-			{
-				button_state += 1;
-			}
-			else
-			{
-				button_state = 0;
-			}
-
-			timeout += 1;
-			LL_mDelay(1);
-		}
-
-		if((button_state >= samples_required) && (timeout <= samples_window))
-		{
-			return 1;
-		}
-		else
-		{
-			return 0;
-		}
-		*/
 }
 /* USER CODE END 4 */
 
