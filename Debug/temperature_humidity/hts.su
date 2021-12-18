@@ -1,0 +1,7 @@
+hts.c:14:9:hts_read_byte	32	static
+hts.c:20:6:hts_write_byte	16	static
+hts.c:25:6:hts_readArray	24	static
+hts.c:31:8:hts_get_temp	16	static
+hts.c:39:6:hts_get_temperature	48	static
+hts.c:71:6:hts_get_humidity	40	static
+hts.c:105:9:hts_init	16	static
