@@ -124,11 +124,28 @@ int main(void)
 	  LL_mDelay(50);
 	  hts_get_humidity(vlhkost_vzduchu);
 	  hum_akt = vlhkost_vzduchu[0];
+	  if(hum_akt < 0){
+		  hum_akt = 0;
+	  }
+	  else if(hum_akt > 99){
+		  hum_akt = 99;
+	  }
 	  lps25hb_get_pressure(tlak);
 	  bar_akt = tlak[0];
+	  if(bar_akt < -9999.99){
+		  bar_akt = -9999.99;
+	  }
+	  else if(bar_akt > 9999.99){
+		  bar_akt = 9999.99;
+	  }
 	  height = ((powf((1013.25/tlak[0]),1/5.257)-1)*(teplota[0]+273.15))/0.0065;
 	  alt_akt = height;
-
+	  if(alt_akt < -9999.9){
+		  alt_akt = -9999.9;
+	  }
+	  else if(alt_akt > 9999.9){
+		  alt_akt = 9999.9;
+	  }
 
 	  if(tlacidlo == 0){
 
