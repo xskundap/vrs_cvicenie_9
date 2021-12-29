@@ -125,7 +125,6 @@ int main(void)
 	  }
 	  lps25hb_get_pressure(tlak);
 	  bar_akt = tlak[0];
-	  lps25hb_get_temp(teplota_skuska);
 	  if(bar_akt < -9999.99){
 		  bar_akt = -9999.99;
 	  }
