@@ -26,7 +26,6 @@
 /* USER CODE END Includes */
 extern uint64_t disp_time;
 extern uint8_t switch_state;
-extern int i;
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
 
@@ -207,7 +206,7 @@ void EXTI3_IRQHandler(void)
 								GPIO_PIN_BUTTON))
 			{
 				switch_state ^= 1;
-				i = 0;
+				LL_mDelay(200);
 			}
   /* USER CODE END EXTI3_IRQn 0 */
   if (LL_EXTI_IsActiveFlag_0_31(LL_EXTI_LINE_3) != RESET)
