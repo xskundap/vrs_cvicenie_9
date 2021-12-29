@@ -6,15 +6,18 @@
  */
 
 #include "display.h"
+#include <stdlib.h>
 
 display_data_ dDisplayData = {0};
 uint64_t disp_time = 0, disp_time_saved = 0;
 char pole[4];
-extern int start;
+extern int i_bodka;
+extern char retazec[];
+extern int pom;
 int pom_i = 0;
 void updateDisplay(char pole[]);
 void setDigit(uint8_t pos);
-
+extern uint8_t tlacidlo;
 /*Reset (turn-off) all the segments of display*/
 void resetSegments(void)
 {
@@ -486,6 +489,7 @@ void setminus(void)
  */
 void setDigit(uint8_t pos)
 {
+
 	switch(pos)
 	{
 		case 0:
@@ -511,22 +515,14 @@ void updateDisplay(char pole[])
 {
 	for(uint8_t i = 0; i < 4; i++)
 	{
-		if((pole[i-1]) == '.'){
-			setDigit(i);
-			setbodka();
-			//i=i+1;
-		}
-		if(pole[i] == '.'){
-			pom_i = i+1;
-		}
-		else{
-			pom_i = i;
-		}
+		pom_i = i;
+
 		switch(pole[pom_i])
 		{
 			case '0':
 			  setDigit(i);
 			  setZero();
+
 			  break;
 			case '1':
 			  setDigit(i);
@@ -780,17 +776,26 @@ void updateDisplay(char pole[])
 				setDigit(i);
 				setminus();
 				break;
-				
 		}
 
+		if(i == 4-i_bodka && i_bodka >= 0 && pom == 1){
+			//LL_GPIO_SetOutputPin(SEGMENTDP_PORT, SEGMENTDP_PIN);
+			setDigit(i);
+			setbodka();
+			i_bodka = -1;
+		}
+
+		if(i == 4-i_bodka && pom == 0 && i_bodka >= 0){
+			setbodka();
+			if(pom == 0 && ((pole[3] == '_' && tlacidlo != 0 ) || pole[2] == '_' || pole[1] == '_')){
+				LL_GPIO_SetOutputPin(SEGMENTDP_PORT, SEGMENTDP_PIN);
+			}
+		}
 		disp_time_saved = disp_time;
 		while((disp_time_saved + 2) > disp_time){};
 		resetDigits();
 		resetSegments();
-		LL_GPIO_SetOutputPin(SEGMENTDP_PORT, SEGMENTDP_PIN);
-
 	}
-
 }
 
 //Update displayed data and keep display ON
@@ -803,4 +808,3 @@ void TIM2_IRQHandler(void)
 
 	LL_TIM_ClearFlag_UPDATE(TIM2);
 }
-
