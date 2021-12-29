@@ -779,7 +779,6 @@ void updateDisplay(char pole[])
 		}
 
 		if(i == 4-i_bodka && i_bodka >= 0 && pom == 1){
-			//LL_GPIO_SetOutputPin(SEGMENTDP_PORT, SEGMENTDP_PIN);
 			setDigit(i);
 			setbodka();
 			i_bodka = -1;
