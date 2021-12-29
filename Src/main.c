@@ -39,19 +39,18 @@ double num_to_display = 10;
 
 //char retazec[] = "123456789\0";
 char retazec[] = "TEMP_00.0\0";
+int i_bodka = -1;
 int dlzka = 0;
 int i = 0;
 extern char pole[4];
-int start = 0;
 int pom = 1;
 
 float teplota[1];
+float teplota_skuska[1];
 float vlhkost_vzduchu[1];
 float tlak[1];
 float height;
 int init = 0;
-
-
 
 float teplota_akt;
 float hum_akt;
@@ -62,22 +61,20 @@ uint8_t switch_state = 0;
 
 uint8_t tlacidlo = 0;
 
-
 char temp_val[5];
 uint8_t s_temp[10];
 
-char hum_val[4];
+char hum_val[2];
 uint8_t s_hum[7];
 
-char bar_val[4];
+char bar_val[7];
 uint8_t s_bar[12];
 
-char alt_val[4];
+char alt_val[6];
 uint8_t s_alt[11];
 
 int main(void)
 {
-
   LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_SYSCFG);
   LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
@@ -102,13 +99,13 @@ int main(void)
 
   MX_TIM2_Init();
 
-  hts_init();
-  /*
-  while(init == 0){
-	  init = lps25hb_init();
+  while(!(init = hts_init())){
+	  LL_mDelay(100);
   }
-  */
-  lps25hb_init();
+
+  while(!(init = lps25hb_init())){
+	  LL_mDelay(100);
+  }
 
   dlzka = strlen(retazec);
   while (1)
@@ -132,6 +129,7 @@ int main(void)
 	  }
 	  lps25hb_get_pressure(tlak);
 	  bar_akt = tlak[0];
+	  lps25hb_get_temp(teplota_skuska);
 	  if(bar_akt < -9999.99){
 		  bar_akt = -9999.99;
 	  }
@@ -156,6 +154,7 @@ int main(void)
 
 		  memset(retazec, 0, 10);
 		  strcat(retazec, s_temp);
+		  dlzka = strlen(retazec)-1;
 
 	  }
 	  else if(tlacidlo == 1){
@@ -166,15 +165,17 @@ int main(void)
 
 		  memset(retazec, 0, 10);
 		  strcat(retazec, s_hum);
+		  dlzka = strlen(retazec);
 	  }
 	  else if(tlacidlo == 2){
 		  char s_bar[] = "BAR_";
 
-		  sprintf(bar_val, "%.1f", bar_akt);
+		  sprintf(bar_val, "%.2f", bar_akt);
 		  strcat(s_bar, bar_val);
 
 		  memset(retazec, 0, 10);
 		  strcat(retazec, s_bar);
+		  dlzka = strlen(retazec)-1;
 	  }
 	  else if(tlacidlo == 3){
 		  char s_alt[] = "ALT_";
@@ -184,16 +185,52 @@ int main(void)
 
 		  memset(retazec, 0, 10);
 		  strcat(retazec, s_alt);
+		  dlzka = strlen(retazec)-1;
 	  }
 
 	  if(pom == 1){
-	  		  if(disp_time > (saved_time + 500)){
+	  		  if(disp_time > (saved_time + 1000)){
+
 	  			  pole[3] = retazec[i];
+	  			  if(pole[3] == '.'){
+	  				  i--;
+	  				  //dlzka = dlzka-1;
+	  				  i_bodka = 0;
+	  				  pole[3] = retazec[i];
+	  				  i++;
+	  			  }
+
 	  			  pole[2] = retazec[i+1];
+	  			  if(pole[2] == '.'){
+	  				  i--;
+	  				 // dlzka = dlzka-1;
+	  				  i_bodka = 1;
+	  				  pole[2] = retazec[i+1];
+	  				  i++;
+	  			  }
+
 	  			  pole[1] = retazec[i+2];
+	  			  if(pole[1] == '.'){
+	  				  i--;
+	  				  //dlzka = dlzka-1;
+	  				  i_bodka = 2;
+	  				  pole[1] = retazec[i+2];
+	  				  i++;
+	  			  }
+
 	  			  pole[0] = retazec[i+3];
+	  			  if(pole[0] == '.'){
+	  				  i--;
+	  				  //dlzka = dlzka-1;
+	  				  i_bodka = 3;
+	  				  pole[0] = retazec[i+3];
+	  				  i++;
+	  			  }
+
 	  			  pole[4] = '\0';
+
 	  			  i++;
+
 	  			  saved_time = disp_time;
 	  			  if(i >= (dlzka-4)){
 	  				  pom = 0;
@@ -202,18 +239,52 @@ int main(void)
 	  	  }
 
 	  	  if(pom == 0){
-	  		  if(disp_time > (saved_time + 500)){
-	  			  pole[3] = retazec[i];
-	  			  pole[2] = retazec[i+1];
-	  			  pole[1] = retazec[i+2];
-	  			  pole[0] = retazec[i+3];
+	  		  if(disp_time > (saved_time + 1000)){
 
-	  			  pole[4] = '\0';
-	  			  i--;
-	  			  saved_time = disp_time;
-	  			  if(i <= 0){
-	  				  pom = 1;
-	  			  }
+	  			pole[3] = retazec[i];
+	  			if(pole[3] == '.'){
+	  				i++;
+	  				//dlzka = dlzka-1;
+	  				i_bodka = 0;
+	  				pole[3] = retazec[i];
+	  				i--;
+	  			}
+
+	  			pole[2] = retazec[i+1];
+	  			if(pole[2] == '.'){
+	  				i++;
+	  				//dlzka = dlzka-1;
+	  				i_bodka = 1;
+	  				pole[2] = retazec[i+1];
+	  				i--;
+	  			}
+
+	  			pole[1] = retazec[i+2];
+	  			if(pole[1] == '.'){
+	  				i++;
+	  				//dlzka = dlzka-1;
+	  				i_bodka = 2;
+	  				pole[1] = retazec[i+2];
+	  				i--;
+	  			}
+
+	  			pole[0] = retazec[i+3];
+	  			if(pole[0] == '.'){
+	  				i++;
+	  				//dlzka = dlzka-1;
+	  				i_bodka = 3;
+	  				pole[0] = retazec[i+3];
+	  				i--;
+	  			}
+
+	  			pole[4] = '\0';
+	  			i--;
+
+	  			saved_time = disp_time;
+	  			if(i <= 0){
+	  				pom = 1;
+	  				i_bodka = -1;
+	  			}
 	  		  }
 	  	  }
 
@@ -263,46 +334,60 @@ uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN)
 {
 	  //type your code for "checkButtonState" implementation here:
 	uint8_t button_state = 0, timeout = 0;
+	button_state = LL_GPIO_IsInputPinSet(Tlacidlo_GPIO_Port, Tlacidlo_Pin);
 
-	if(LL_GPIO_IsInputPinSet(Tlacidlo_GPIO_Port, Tlacidlo_Pin)){
-
+	if(button_state){
+		tlacidlo++;
 		if(tlacidlo <= 3){
-				tlacidlo++;
+
 				if(tlacidlo == 0){
 					char retazec_pom[] = "TEMP_00.0\0";
 					dlzka = strlen(retazec_pom);
 					i = 0;
-					memset(retazec, 0, 10);
+					memset(retazec, 0, 13);
 					strcat(retazec, retazec_pom);
+					pom = 1;
 				}
 				if(tlacidlo == 1){
 					char retazec_pom[] = "HUM_00\0";
 					dlzka = strlen(retazec_pom);
 					i = 0;
-					memset(retazec, 0, 10);
+					memset(retazec, 0, 13);
 					strcat(retazec, retazec_pom);
+					pom = 1;
 				}
 				if(tlacidlo == 2){
-					char retazec_pom[] = "BAR_0000.0\0";
+					char retazec_pom[] = "BAR_0000.00\0";
 					dlzka = strlen(retazec_pom);
 					i = 0;
-					memset(retazec, 0, 10);
+					memset(retazec, 0, 13);
 					strcat(retazec, retazec_pom);
+					pom = 1;
 				}
 				if(tlacidlo == 3){
 					char retazec_pom[] = "ALT_0000.0\0";
 					dlzka = strlen(retazec_pom);
 					i = 0;
-					memset(retazec, 0, 10);
+					memset(retazec, 0, 13);
 					strcat(retazec, retazec_pom);
+					pom = 1;
 				}
 			}
-			else{
-				tlacidlo = 0;
+		if(tlacidlo > 3){
+			tlacidlo = 0;
+			if(tlacidlo == 0){
+				char retazec_pom[] = "TEMP_00.0\0";
+				dlzka = strlen(retazec_pom);
+				i = 0;
+				memset(retazec, 0, 13);
+				strcat(retazec, retazec_pom);
+				pom = 1;
 			}
+		}
 		return 1;
 	}
 	else{
+
 		return 0;
 	}
 }
