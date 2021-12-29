@@ -80,10 +80,6 @@ int main(void)
 
   NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4);
 
-  /* System interrupt init*/
-  /* SysTick_IRQn interrupt configuration */
- // NVIC_SetPriority(SysTick_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),15, 0));
-
   SystemClock_Config();
 
   MX_GPIO_Init();
@@ -194,7 +190,6 @@ int main(void)
 	  			  pole[3] = retazec[i];
 	  			  if(pole[3] == '.'){
 	  				  i--;
-	  				  //dlzka = dlzka-1;
 	  				  i_bodka = 0;
 	  				  pole[3] = retazec[i];
 	  				  i++;
@@ -203,7 +198,6 @@ int main(void)
 	  			  pole[2] = retazec[i+1];
 	  			  if(pole[2] == '.'){
 	  				  i--;
-	  				 // dlzka = dlzka-1;
 	  				  i_bodka = 1;
 	  				  pole[2] = retazec[i+1];
 	  				  i++;
@@ -212,7 +206,6 @@ int main(void)
 	  			  pole[1] = retazec[i+2];
 	  			  if(pole[1] == '.'){
 	  				  i--;
-	  				  //dlzka = dlzka-1;
 	  				  i_bodka = 2;
 	  				  pole[1] = retazec[i+2];
 	  				  i++;
@@ -221,7 +214,6 @@ int main(void)
 	  			  pole[0] = retazec[i+3];
 	  			  if(pole[0] == '.'){
 	  				  i--;
-	  				  //dlzka = dlzka-1;
 	  				  i_bodka = 3;
 	  				  pole[0] = retazec[i+3];
 	  				  i++;
@@ -244,7 +236,6 @@ int main(void)
 	  			pole[3] = retazec[i];
 	  			if(pole[3] == '.'){
 	  				i++;
-	  				//dlzka = dlzka-1;
 	  				i_bodka = 0;
 	  				pole[3] = retazec[i];
 	  				i--;
@@ -253,7 +244,6 @@ int main(void)
 	  			pole[2] = retazec[i+1];
 	  			if(pole[2] == '.'){
 	  				i++;
-	  				//dlzka = dlzka-1;
 	  				i_bodka = 1;
 	  				pole[2] = retazec[i+1];
 	  				i--;
@@ -262,7 +252,6 @@ int main(void)
 	  			pole[1] = retazec[i+2];
 	  			if(pole[1] == '.'){
 	  				i++;
-	  				//dlzka = dlzka-1;
 	  				i_bodka = 2;
 	  				pole[1] = retazec[i+2];
 	  				i--;
@@ -271,7 +260,6 @@ int main(void)
 	  			pole[0] = retazec[i+3];
 	  			if(pole[0] == '.'){
 	  				i++;
-	  				//dlzka = dlzka-1;
 	  				i_bodka = 3;
 	  				pole[0] = retazec[i+3];
 	  				i--;
