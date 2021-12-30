@@ -27,8 +27,8 @@
 
 #include "i2c.h"
 #include "../temperature_humidity/hts.h"
-#include "../pressure/lps25hb.h"
 #include <math.h>
+#include "../pressure/lps22hb.h"
 
 void SystemClock_Config(void);
 
@@ -56,6 +56,9 @@ float teplota_akt;
 float hum_akt;
 float bar_akt;
 float alt_akt;
+
+int i_akt = 0;
+
 uint8_t checkButtonState(GPIO_TypeDef* PORT, uint8_t PIN);
 uint8_t switch_state = 0;
 
@@ -99,7 +102,7 @@ int main(void)
 	  LL_mDelay(100);
   }
 
-  while(!(init = lps25hb_init())){
+  while(!(init = lps22hb_init())){
 	  LL_mDelay(100);
   }
 
@@ -123,7 +126,7 @@ int main(void)
 	  else if(hum_akt > 99){
 		  hum_akt = 99;
 	  }
-	  lps25hb_get_pressure(tlak);
+	  lps22hb_get_pressure(tlak);
 	  bar_akt = tlak[0];
 	  if(bar_akt < -9999.99){
 		  bar_akt = -9999.99;
@@ -143,7 +146,6 @@ int main(void)
 	  if(tlacidlo == 0){
 
 		  char s_temp[] = "TEMP_";
-
 		  sprintf(temp_val, "%.1f", teplota_akt);
 		  strcat(s_temp, temp_val);
 
@@ -219,7 +221,7 @@ int main(void)
 	  			  }
 
 	  			  pole[4] = '\0';
-
+	  			  i_akt = i;
 	  			  i++;
 
 	  			  saved_time = disp_time;
@@ -263,7 +265,7 @@ int main(void)
 	  				pole[0] = retazec[i+3];
 	  				i--;
 	  			}
-
+	  			i_akt = i;
 	  			pole[4] = '\0';
 	  			i--;
 
@@ -410,3 +412,4 @@ void assert_failed(char *file, uint32_t line)
 #endif /* USE_FULL_ASSERT */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+
