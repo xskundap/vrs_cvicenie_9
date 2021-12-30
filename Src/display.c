@@ -13,11 +13,14 @@ uint64_t disp_time = 0, disp_time_saved = 0;
 char pole[4];
 extern int i_bodka;
 extern char retazec[];
+extern int i_akt;
 extern int pom;
 int pom_i = 0;
 void updateDisplay(char pole[]);
 void setDigit(uint8_t pos);
 extern uint8_t tlacidlo;
+extern float bar_akt;
+extern float alt_akt;
 /*Reset (turn-off) all the segments of display*/
 void resetSegments(void)
 {
@@ -786,9 +789,15 @@ void updateDisplay(char pole[])
 
 		if(i == 4-i_bodka && pom == 0 && i_bodka >= 0){
 			setbodka();
-			if(pom == 0 && ((pole[3] == '_' && tlacidlo != 0 ) || pole[2] == '_' || pole[1] == '_')){
+			if(pom == 0 && (((pole[3] == '_' || pole[3] == '-') && tlacidlo != 0 ) || pole[2] == '_' || pole[1] == '_' || pole[2] == '-')){
 				LL_GPIO_SetOutputPin(SEGMENTDP_PORT, SEGMENTDP_PIN);
 			}
+		}
+		if(tlacidlo == 2 && bar_akt > 1000 && retazec[abs(i_akt-1)] == '_'){
+			LL_GPIO_SetOutputPin(SEGMENTDP_PORT, SEGMENTDP_PIN);
+		}
+		if(tlacidlo == 3 && alt_akt > 1000 && retazec[abs(i_akt-1)] == '_'){
+					LL_GPIO_SetOutputPin(SEGMENTDP_PORT, SEGMENTDP_PIN);
 		}
 		disp_time_saved = disp_time;
 		while((disp_time_saved + 2) > disp_time){};
@@ -807,3 +816,4 @@ void TIM2_IRQHandler(void)
 
 	LL_TIM_ClearFlag_UPDATE(TIM2);
 }
+
